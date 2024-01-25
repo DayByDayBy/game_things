@@ -16,6 +16,7 @@ ________________________________________________________________
         fill(path), 
         fill(fillRule), 
         fill(path, fillRule) 
+    stroke()
     
 
 

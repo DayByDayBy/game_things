@@ -38,7 +38,7 @@
 
         ctx.beginPath();
         ctx.arc(240, 240, 8, 0, Math.PI * 2, false);
-        ctx.fillStyle = "silver";
+        ctx.fillStyle = "green";
         ctx.fill();
         ctx.closePath();
 
@@ -48,12 +48,50 @@
         ctx.stroke();
         ctx.closePath();
 
-        
+        for (let i = 0; i <= 3; i++) {
+            for (let j = 0; j <= 2; j++) {
+                ctx.beginPath();
+                    let x = 100 + j * 50;
+                    let y = 100 + i * 50;
+                    let radius = 20;
+                    let startAngle = 0;
+                    let endAngle = Math.PI + (Math.PI * j) / 2;
+                    let counterclockwise = i % 2 === 1;
 
+                    ctx.arc(x, y, radius, startAngle, endAngle, counterclockwise)
+                
+                    if (i > 1) {
+                        ctx.fill();
+                    } else {
+                        ctx.stroke();
+                    }
+            }
+        }
+
+        for (let i = 0; i <= 3; i++) {
+            for (let j = 0; j <= 2; j++) {
+                ctx.beginPath();
+                    let x = 300 + j * 50;
+                    let y = 50 + i * 50;
+                    let radiusX = 10;
+                    let radiusY = 15
+                    let rotation = Math.random(7)
+                    let startAngle = 0;
+                    let endAngle = Math.PI + (Math.PI * j) / 2;
+                    let counterclockwise = i % 2 === 1;
+                    ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, counterclockwise)
+                    ctx.fillStyle = "yellow";
+                    ctx.strokeStyle = "black";
+                    if (i > 1) {
+                        ctx.fill();
+                    } else {
+                        ctx.stroke();
+                    }
+            }
+        }
 
 
 
     </script>
-
 </body>
 </html>
