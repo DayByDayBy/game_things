@@ -27,12 +27,18 @@
         let y = canvas.height - 30;
         let dx = 2;
         let dy = -2;
-        let ballColour = 'rgb('+
-        Math.floor(Math.random()*256)+','+
-        Math.floor(Math.random()*256)+','+
-        Math.floor(Math.random()*256)+')';
+        let ballColour = randomColour()
 
         const ballRadius = 10;
+
+
+        function randomColour() {
+            let colour = 'rgb('+
+                Math.floor(Math.random()*256)+','+
+                Math.floor(Math.random()*256)+','+
+                Math.floor(Math.random()*256)+')';
+            return colour;
+        }
 
 
         function drawBall(){
@@ -49,10 +55,12 @@
             
             if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
                 dy = -dy;
+                ballColour = randomColour();
             }
             
             if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
                 dx = -dx;
+                ballColour = randomColour();
             }
 
             x += dx;
