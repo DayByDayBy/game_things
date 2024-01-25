@@ -76,7 +76,7 @@
                     let radiusX = 10;
                     let radiusY = 15
                     let rotation = Math.random(7)
-                    let startAngle = 0;
+                    let startAngle = Math.random(3)
                     let endAngle = Math.PI + (Math.PI * j) / 2;
                     let counterclockwise = i % 2 === 1;
                     ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, counterclockwise)
