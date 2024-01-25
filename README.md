@@ -27,15 +27,15 @@ ________________________________________________________________
 ##### also:
 
     Math.PI
-    Math.random(n)
+    Math.random()          // pseudo-random number generator
+    math.floor(x)           // returns rounded down int
 
     setInterval(code, delay)            // runs code per delay in ms
     requestAnimationFrame(callback) 
 
 ##### and:
-    clearRect(x, y, width, height)      // sets all pixels in defined rectangle to transparent black 
-
-
+    clearRect(x, y, width, height)                  // sets all pixels in defined rectangle to transparent black 
+    addEventListener(type, listener, options)        // adds 'listener' to trigger named function on event, eg 'keydown'
 
 
 

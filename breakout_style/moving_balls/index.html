@@ -33,10 +33,9 @@
         let dy = -2;
         let ballColour = randomColour();
 
+        let rightPress = false;
+        let leftPress = false;
 
-
-
-      
         const ballRadius = 10;
 
 
@@ -47,7 +46,6 @@
                 Math.floor(Math.random()*256)+')';
             return colour;
         }
-
 
         function drawBall(){
             ctx.beginPath();
@@ -82,9 +80,33 @@
 
             x += dx;
             y += dy;
+            if (rightPress){
+                paddleX = Math.min(paddleX + 7, canvas.width - paddleWidth);
+            } else if (leftPress) {
+                paddleX = Math.max(paddleX - 7, 0)
+            }
         }
 
-        setInterval(draw, 8);
+
+        document.addEventListener("keydown", keyDownHandler, false);
+        document.addEventListener("keyup", keyUpHandler, false);
+
+        function keyDownHandler(event){
+            if (event.key ==="Right" || event.key ==="ArrowRight") {
+                rightPress = true;
+            } else if (event.key ==="Left" || event.key ==="ArrowLeft"){
+                leftPress = true;
+            }
+        }
+        function keyUpHandler(event) {
+            if (event.key ==="Right" || event.key ==="ArrowRight") {
+                rightPress = false;
+            } else if (event.key ==="Left" || event.key ==="ArrowLeft"){
+                leftPress = false;
+            }
+        }
+        
+        setInterval(draw, 8);   // setting framerate in ms
 
 
 
