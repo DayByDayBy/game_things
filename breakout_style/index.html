@@ -1,0 +1,35 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>___canvas/breakout___</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        canvas {
+            background: #eee;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+
+</head>
+
+<body>
+    <canvas id="myCanvas" width="480" height="320"></canvas>
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+
+        ctx.beginPath();
+        ctx.rect(20, 40, 50, 50);
+        ctx.fillStyle = "#FF0000";
+        ctx.fill();
+        ctx.closePath();
+
+    </script>
+
+</body>
+</html>
