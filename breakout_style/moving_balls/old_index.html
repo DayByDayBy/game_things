@@ -14,6 +14,7 @@
             margin: 0 auto;
         }
     </style>
+
 </head>
 
 <body>
@@ -23,33 +24,40 @@
         const ctx = canvas.getContext("2d");
 
         const ballRadius = 10;
+
         const paddleHeight = 10;
         const paddleWidth = 75;
 
-        let paddleX = (canvas.width - paddleWidth) / 2;
-        let x = canvas.width / 2;
-        let y = canvas.height - 30;
-        let dx = 2;
-        let dy = -2;
-        let ballColour = randomColour();
-        let bounceCount = 0;
-        let rightPress = false;
-        let leftPress = false;
+        var paddleX = (canvas.width - paddleWidth) / 2;
+
+        var x = canvas.width/2;
+        var y = canvas.height - 30;
+        var dx = 2;
+        var dy = -2;
+        var ballColour = randomColour();
+
+        var bounceCount = 0;
+
+        var rightPress = false;
+        var leftPress = false;
+
+
+
 
         function randomColour() {
-            return 'rgb(' +
-                Math.floor(Math.random() * 256) + ',' +
-                Math.floor(Math.random() * 256) + ',' +
-                Math.floor(Math.random() * 256) + ')';
+            let colour = 'rgb('+
+                Math.floor(Math.random()*256)+','+
+                Math.floor(Math.random()*256)+','+
+                Math.floor(Math.random()*256)+')';
+            return colour;
         }
 
-        function bounce() {
-            bounceCount += 1;
-            dx = (dx > 0) ? 2 + bounceCount : -2 - bounceCount;
-            dy = (dy > 0) ? 2 + bounceCount : -2 - bounceCount;
-        }
+        function bounce(){
+                bounceCount += 1;
+                interval = setInterval(draw, 8 + bounceCount);
+            }       
 
-        function drawBall() {
+        function drawBall(){
             ctx.beginPath();
             ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
             ctx.fillStyle = ballColour;
@@ -57,7 +65,7 @@
             ctx.closePath();
         }
 
-        function drawPaddle() {
+        function drawPaddle(){
             ctx.beginPath();
             ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
             ctx.fillStyle = "#0095DD";
@@ -65,30 +73,34 @@
             ctx.closePath();
         }
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        function draw(){ 
+            ctx.clearRect(0,0, canvas.width, canvas.height);
             drawBall();
             drawPaddle();
-
+        
             if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
                 dx = -dx;
                 ballColour = randomColour();
             }
-            if (y + dy < ballRadius) {
+            if (y + dy < ballRadius){
                 dy = -dy;
                 ballColour = randomColour();
-            } else if (y + dy > canvas.height - ballRadius) {
-                if (x > paddleX && x < paddleX + paddleWidth) {
+
+            } else if (y + dy > canvas.height - ballRadius){
+                if (x > paddleX && x < paddleX + paddleWidth){
                     dy = -dy;
                     bounce();
                 } else {
-                    gameOver();
-                }
+                    alert("GAME OVER!");
+                    document.location.reload();
+                    clearInterval(interval)
+                    }
             }
 
-            if (rightPress && paddleX < canvas.width - paddleWidth) {
+            if(rightPress && paddleX < canvas.width-paddleWidth) {
                 paddleX += 7;
-            } else if (leftPress && paddleX > 0) {
+            }
+            else if(leftPress && paddleX > 0) {
                 paddleX -= 7;
             }
 
@@ -96,32 +108,26 @@
             y += dy;
         }
 
-        function gameOver() {
-            clearInterval(interval);
-            alert("GAME OVER!");
-            document.location.reload();
-        }
 
         document.addEventListener("keydown", keyDownHandler, false);
         document.addEventListener("keyup", keyUpHandler, false);
 
-        function keyDownHandler(event) {
-            if (event.key === "Right" || event.key === "ArrowRight") {
+        function keyDownHandler(event){
+            if (event.key ==="Right" || event.key ==="ArrowRight") {
                 rightPress = true;
-            } else if (event.key === "Left" || event.key === "ArrowLeft") {
+            } else if (event.key ==="Left" || event.key ==="ArrowLeft"){
                 leftPress = true;
             }
         }
-
         function keyUpHandler(event) {
-            if (event.key === "Right" || event.key === "ArrowRight") {
+            if (event.key ==="Right" || event.key ==="ArrowRight") {
                 rightPress = false;
-            } else if (event.key === "Left" || event.key === "ArrowLeft") {
+            } else if (event.key ==="Left" || event.key ==="ArrowLeft"){
                 leftPress = false;
             }
         }
-
-        let interval = setInterval(draw, 8);
+        
+    var interval = setInterval(draw, 8 + bounceCount);   
 
     </script>
 </body>
