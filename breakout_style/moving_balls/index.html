@@ -1,143 +1,183 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>___canvas/breakout___</title>
     <style>
-        * {
-            padding: 0;
-            margin: 0;
-        }
-        canvas {
-            background: #eee;
-            display: block;
-            margin: 0 auto;
-        }
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      canvas {
+        background: #eee;
+        display: block;
+        margin: 0 auto;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <canvas id="myCanvas" width="480" height="320"></canvas>
     <script>
-        const canvas = document.getElementById("myCanvas");
-        const ctx = canvas.getContext("2d");
+      var canvas = document.getElementById("myCanvas");
+      var ctx = canvas.getContext("2d");
 
-        const ballRadius = 10;
-        const paddleHeight = 10;
-        const paddleWidth = 75;
+      var ballRadius = 10;
+      var paddleHeight = 10;
+      var paddleWidth = 75;
 
-        const brickRowCount = 3;
-        const brickColumnCount = 5;
-        const brickWidth = 75;
-        const brickHeight = 20;
-        const brickOffsetTop = 30;
-        const brickOffsetLeft = 30;
+      var brickRowCount = 3;
+      var brickColumnCount = 5;
+      var brickWidth = 75;
+      var brickHeight = 20;
+      var brickOffsetTop = 30;
+      var brickOffsetLeft = 30;
+      var brickPadding = 1;
 
-        const bricks = [];
+      var paddleX = (canvas.width - paddleWidth) / 2;
+      var x = canvas.width / 2;
+      var y = canvas.height - 30;
+      var dx = 2;
+      var dy = -2;
+      var ballColour = ballRGB();
+      var bounceCount = 0;
+      var rightPress = false;
+      var leftPress = false;
+
+      var bricks = [];
+      for (let c = 0; c < brickColumnCount; c++) {
+        bricks[c] = [];
+        for (let r = 0; r < brickRowCount; r++) {
+          bricks[c][r] = { x: 0, y: 0 };
+        }
+      }
+
+      function ballRGB() {
+        return (
+          "rgb(" +
+          Math.floor(Math.random() * 256) +
+          "," +
+          Math.floor(Math.random() * 256) +
+          "," +
+          Math.floor(Math.random() * 256) +
+          ")"
+        );
+      }
+
+      // function brickRGB() { return ( "rgb(" + Math.floor(Math.random() * 256 + 1) + "," + Math.floor(Math.random() * 256 + 1) + "," + Math.floor(Math.random() * 256 + 1) + ")" );}
+
+      function bounce() {
+        bounceCount += 1;
+        dx = dx > 0 ? 2 + bounceCount : -2 - bounceCount;
+        dy = dy > 0 ? 2 + bounceCount : -2 - bounceCount;
+      }
+
+      function drawBall() {
+        ctx.beginPath();
+        ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+        ctx.fillStyle = ballColour;
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      function drawPaddle() {
+        ctx.beginPath();
+        ctx.rect(
+          paddleX,
+          canvas.height - paddleHeight,
+          paddleWidth,
+          paddleHeight
+        );
+        ctx.fillStyle = "#0095DD";
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      function drawBricks() {
         for (let c = 0; c < brickColumnCount; c++) {
-            bricks[c] = [];
-            for (let r = 0; row < brickRowCount; r++) {
-                bricks[c][r] = {x: 0, y:0};
-            
-        }
+          for (let r = 0; r < brickRowCount; r++) {
+            var brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
+            var brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
+            bricks[c][r].x = brickX;
+            bricks[c][r].y = brickY;
 
-        let paddleX = (canvas.width - paddleWidth) / 2;
-        let x = canvas.width / 2;
-        let y = canvas.height - 30;
-        let dx = 2;
-        let dy = -2;
-        let ballColour = randomColour();
-        let bounceCount = 0;
-        let rightPress = false;
-        let leftPress = false;
+            var brickColour =
+              "hsl(" +
+              Math.floor(Math.random() * 360)+
+              "," +
+              (Math.random() * 30 + (Math.random()*70)) +
+              "%," +
+              (Math.random() * 10 + 60) +
+              "%)";
 
-        function randomColour() {
-            return 'rgb(' +
-                Math.floor(Math.random() * 256) + ',' +
-                Math.floor(Math.random() * 256) + ',' +
-                Math.floor(Math.random() * 256) + ')';
-        }
-
-        function bounce() {
-            bounceCount += 1;
-            dx = (dx > 0) ? 2 + bounceCount : -2 - bounceCount;
-            dy = (dy > 0) ? 2 + bounceCount : -2 - bounceCount;
-        }
-
-        function drawBall() {
             ctx.beginPath();
-            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-            ctx.fillStyle = ballColour;
+            ctx.rect(brickX, brickY, brickWidth, brickHeight);
+            ctx.fillStyle = brickColour;
             ctx.fill();
             ctx.closePath();
+          }
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBricks();
+        drawBall();
+        drawPaddle();
+
+        if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+          dx = -dx;
+          ballColour = ballRGB();
+        }
+        if (y + dy < ballRadius) {
+          dy = -dy;
+          ballColour = ballRGB();
+        } else if (y + dy > canvas.height - ballRadius) {
+          if (x > paddleX && x < paddleX + paddleWidth) {
+            dy = -dy;
+            bounce();
+            ballColour = ballRGB();
+          } else {
+            gameOver();
+          }
         }
 
-        function drawPaddle() {
-            ctx.beginPath();
-            ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-            ctx.fillStyle = "#0095DD";
-            ctx.fill();
-            ctx.closePath();
+        if (rightPress && paddleX < canvas.width - paddleWidth) {
+          paddleX += 7;
+        } else if (leftPress && paddleX > 0) {
+          paddleX -= 7;
         }
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawBall();
-            drawPaddle();
+        x += dx;
+        y += dy;
+      }
 
-            if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
-                dx = -dx;
-                ballColour = randomColour();
-            }
-            if (y + dy < ballRadius) {
-                dy = -dy;
-                ballColour = randomColour();
-            } else if (y + dy > canvas.height - ballRadius) {
-                if (x > paddleX && x < paddleX + paddleWidth) {
-                    dy = -dy;
-                    bounce();
-                } else {
-                    gameOver();
-                }
-            }
+      function gameOver() {
+        clearInterval(interval);
+        alert("GAME OVER!");
+        document.location.reload();
+      }
 
-            if (rightPress && paddleX < canvas.width - paddleWidth) {
-                paddleX += 7;
-            } else if (leftPress && paddleX > 0) {
-                paddleX -= 7;
-            }
+      document.addEventListener("keydown", keyDownHandler, false);
+      document.addEventListener("keyup", keyUpHandler, false);
 
-            x += dx;
-            y += dy;
+      function keyDownHandler(event) {
+        if (event.key === "Right" || event.key === "ArrowRight") {
+          rightPress = true;
+        } else if (event.key === "Left" || event.key === "ArrowLeft") {
+          leftPress = true;
         }
+      }
 
-        function gameOver() {
-            clearInterval(interval);
-            alert("GAME OVER!");
-            document.location.reload();
+      function keyUpHandler(event) {
+        if (event.key === "Right" || event.key === "ArrowRight") {
+          rightPress = false;
+        } else if (event.key === "Left" || event.key === "ArrowLeft") {
+          leftPress = false;
         }
+      }
 
-        document.addEventListener("keydown", keyDownHandler, false);
-        document.addEventListener("keyup", keyUpHandler, false);
-
-        function keyDownHandler(event) {
-            if (event.key === "Right" || event.key === "ArrowRight") {
-                rightPress = true;
-            } else if (event.key === "Left" || event.key === "ArrowLeft") {
-                leftPress = true;
-            }
-        }
-
-        function keyUpHandler(event) {
-            if (event.key === "Right" || event.key === "ArrowRight") {
-                rightPress = false;
-            } else if (event.key === "Left" || event.key === "ArrowLeft") {
-                leftPress = false;
-            }
-        }
-
-        let interval = setInterval(draw, 8);
-
+      let interval = setInterval(draw, 18);
     </script>
-</body>
+  </body>
 </html>
