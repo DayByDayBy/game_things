@@ -31,8 +31,8 @@
       var brickWidth = 70;
       var brickHeight = 20;
       var brickOffsetTop = 0;
-      var brickOffsetLeft = 30;
-      var brickPadding = 1;
+      var brickOffsetLeft = 20;
+      var brickPadding = 5;
 
       var hueValue = Math.floor(Math.random() * 360)
 
@@ -53,6 +53,19 @@
           bricks[c][r] = { x: 0, y: 0 };
         }
       }
+
+      function collisionDetection(){
+        for (let c = 0; c < brickColumnCount; c++) {
+            for (let r = 0; r < brickRowCount; b++){
+                const b = bricks[c][r];
+                if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight){
+                    dy =- dy
+                }
+            }
+        }
+      }
+
+
 
       function ballRGB() {
         return (
@@ -134,7 +147,7 @@
         if (y + dy < ballRadius) {
           dy = -dy;
           ballColour = ballRGB();
-        } else if (y + dy > canvas.height - ballRadius) {
+        } else if (y + dy > canvas.height - 5 - ballRadius) {
           if (x > paddleX && x < paddleX + paddleWidth) {
             dy = -dy;
             bounce();
