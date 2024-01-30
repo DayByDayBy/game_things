@@ -10,24 +10,39 @@
         }
 
     </style>
-    <script src = "js/phaser.min.js"></script>
+    <script src = "node_modules/phaser-ce/build/phaser.min.js"></script>
 </head>
 <body>
     <script>
-        const game = new Phaser.Game(480, 320, Phaser.Canvas, null, {
-            preload, 
-            create, 
-            update,
+        const game = new Phaser.Game(600, 400, Phaser.CANVAS, null, {
+            preload: preload, 
+            create: create, 
+            update: update,
         });
+
+        let ball;
+
+
         function preload(){
-            game.scale.scaleMode = Phaser.scaleManager.SHOW_ALL;
+            game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
             game.scale.pageAlignHorizontally = true;
             game.scale.pageAlignVertically = true;
+            game.stage.backgroundColor = "#eee";
+            game.load.image('ball', 'img/ball.png');
         }
         function create(){
+            game.physics.startSystem(Phaser.Physics.ARCADE);
+            ball = game.add.sprite(0, 0, "ball");
+            game.physics.enable(ball, Phaser.Physics.ARCADE);
+            // ball.body.gravity.y = 100;
+            ball.body.velocity.set(150, 150);
+
+        
+        }
+        function update(){
 
         }
-        function update(){}
+
 
 
     </script>
