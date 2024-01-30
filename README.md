@@ -3,8 +3,10 @@ a place to play with basic .js game ideas
 
 
 
+
 ________________________________________________________________
 ________________________________________________________________
+
 
 
 ##### includes use of canvas:
@@ -39,5 +41,5 @@ ________________________________________________________________
 
 
 
-
+(haven't been updating this list religiously. more to add, but when i have time/focus to spare)
     
