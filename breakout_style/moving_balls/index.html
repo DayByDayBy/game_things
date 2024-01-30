@@ -11,7 +11,7 @@
       canvas {
         background: #eee;
         display: block;
-        margin: 0 auto;
+        margin: 100 auto;
       }
     </style>
   </head>
@@ -30,7 +30,7 @@
       var brickColumnCount = 6;
       var brickWidth = 70;
       var brickHeight = 20;
-      var brickOffsetTop = 0;
+      var brickOffsetTop = 5;
       var brickOffsetLeft = 20;
       var brickPadding = 5;
 
@@ -45,6 +45,7 @@
       var bounceCount = 0;
       var rightPress = false;
       var leftPress = false;
+      let score = 0;
 
       var bricks = [];
       for (let c = 0; c < brickColumnCount; c++) {
@@ -87,6 +88,7 @@
                 dy = -dy;
                 b.status = 0;
                 ballColour = ballRGB();
+                score++
               }
             }
           }
@@ -107,6 +109,12 @@
 
       // function brickRGB() { return ( "rgb(" + Math.floor(Math.random() * 256 + 1) + "," + Math.floor(Math.random() * 256 + 1) + "," + Math.floor(Math.random() * 256 + 1) + ")" );}
 
+
+       function drawScore(){
+        ctx.font = "16px Helvetica BoldItalic";
+        ctx.fillStyle = "#0095DD";
+        ctx.fillText(`SCORE:  ${score}`, 10, 310)
+       }
       function bounce() {
         bounceCount += 1;
         dx = dx > 0 ? 2 + bounceCount : -2 - bounceCount;
@@ -167,6 +175,7 @@
         drawBall();
         drawPaddle();
         collisionDetection();
+        drawScore();
 
         if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
           dx = -dx;
@@ -175,7 +184,7 @@
         if (y + dy < ballRadius) {
           dy = -dy;
           ballColour = ballRGB();
-        } else if (y + dy > canvas.height - 5 - ballRadius) {
+        } else if (y + dy > canvas.height - 4 - ballRadius) {
           if (x > paddleX && x < paddleX + paddleWidth) {
             dy = -dy;
             bounce();
@@ -186,9 +195,9 @@
         }
 
         if (rightPress && paddleX < canvas.width - paddleWidth) {
-          paddleX += 7;
+          paddleX += 7 * (Math.max(1, (score/5)));
         } else if (leftPress && paddleX > 0) {
-          paddleX -= 7;
+          paddleX -= 7 * (Math.max(1, (score/5)));
         }
 
         x += dx;
