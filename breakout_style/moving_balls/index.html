@@ -41,7 +41,8 @@
       var y = canvas.height - 30;
       var dx = 1;
       var dy = -1;
-      var ballColour = ballRGB();
+      var ballColour = ballRGB(0);
+      var strokeColour = ballRGB(10);
       var bounceCount = 0;
       var rightPress = false;
       var leftPress = false;
@@ -99,7 +100,8 @@
               ) {
                 dy = -dy;
                 b.status = 0;
-                ballColour = ballRGB();
+                ballColour = ballRGB(0);
+                strokeColour = ballRGB(10+bounceCount)
                 score = score + (200-b.y);
               }
             }
@@ -107,12 +109,12 @@
         }
       }
 
-      function ballRGB() {
+      function ballRGB(x) {
         return (
           "rgb(" +
-          Math.floor(Math.random() * 256) +
+          Math.floor(Math.random() * 230 + 26) +
           "," +
-          Math.floor(Math.random() * 256) +
+          Math.floor(Math.random() * 256 - x) +
           "," +
           Math.floor(Math.random() * 256) +
           ")"
@@ -135,8 +137,8 @@
 
       function bounce() {
         bounceCount += 1;
-        dx = dx > 0 ? 1 + bounceCount : -1 - bounceCount;
-        dy = dy > 0 ? 1 + bounceCount : -1 - bounceCount;
+        dx = dx > 0 ? 1 + Math.round(bounceCount/5) : -1 - Math.round(bounceCount/5);
+        dy = dy > 0 ? 1 + Math.round(bounceCount/5) : -1 - Math.round(bounceCount/5);
       }
 
       function drawBall() {
@@ -144,6 +146,8 @@
         ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
         ctx.fillStyle = ballColour;
         ctx.fill();
+        ctx.strokeStyle = strokeColour;
+        ctx.stroke();
         ctx.closePath();
       }
 
@@ -198,16 +202,16 @@
 
         if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
           dx = -dx;
-          ballColour = ballRGB();
+          ballColour = ballRGB(0);
         }
         if (y + dy < ballRadius) {
           dy = -dy;
-          ballColour = ballRGB();
+          ballColour = ballRGB(0);
         } else if (y + dy > canvas.height - 3 - ballRadius) {
           if (x > paddleX && x < paddleX + paddleWidth) {
             dy = -dy;
             bounce();
-            ballColour = ballRGB();
+            ballColour = ballRGB(0);
           } else {
             loss();
           }
@@ -231,11 +235,12 @@
 //        clearInterval(interval);
         document.location.reload();
       } else {
+        bounceCount = 5 - lives;
         setInterval(24);
         x = canvas.width / 2;
         y = canvas.height - 30;
-        dx = 1;
-        dy = -1;
+        dx = 2;
+        dy = -2;
         paddleX = (canvas.width - paddleWidth) / 2;
 
       }
@@ -249,4 +254,11 @@
 
 
 
+
+
+
+<!-- 
+// still to try changing the angle the ball bounces off the paddle, and 
+// maybe add a 'you win' screen when the bricks are all gone, ie when the brick array is empty 
+-->
 
