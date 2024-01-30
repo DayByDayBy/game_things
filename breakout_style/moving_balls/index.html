@@ -221,13 +221,14 @@
 
         x += dx;
         y += dy;
+        requestAnimationFrame(draw);
       }
 
       function loss() {
         lives--;
         if (!lives){
         alert('\n' + "   GAME OVER!   " + '\n\n' + 'YOU SCORED ' + score + ' points');
-        clearInterval(interval);
+//        clearInterval(interval);
         document.location.reload();
       } else {
         setInterval(24);
@@ -240,7 +241,8 @@
       }
     }
 
-      let interval = setInterval(draw, 24);
+    draw();
+//      let interval = setInterval(draw, 24);
     </script>
   </body>
 </html>
