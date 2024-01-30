@@ -24,6 +24,9 @@
       let bricks;
       let newBrick;
       let brickInfo;
+      let scoreText;
+      let score = 0;
+
 
       function preload() {
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -67,13 +70,22 @@
         paddle.body.immovable = true;
 
         initBricks();
+
+        titleText = game.add.text(300, 5, "BOUNCY BOUNCY BANG BANG",{
+            font: "18px Helvetica, sans-serif",
+            fill: "#D0D",
+        });
+
+        scoreText = game.add.text(5, 5, "POINTS: 0",{
+            font: "15px Helvetica, sans-serif",
+            fill: "#009",
+        });
       }
 
       function update() {
         game.physics.arcade.collide(ball, paddle);
         game.physics.arcade.collide(ball, bricks, ballHitBrick);
         paddle.x = game.input.x || game.world.width * 0.5;
-
       }
 
       function initBricks() {
@@ -105,6 +117,8 @@
       }
       function ballHitBrick(ball, brick){
         brick.kill();
+        score += 10
+        scoreText.setText(`POINTS: ${score}`);
       }
     </script>
   </body>
