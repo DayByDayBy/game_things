@@ -38,17 +38,16 @@
         game.load.image("ball", "img/ball.png");
         game.load.image("paddle", "img/paddle.png");
         game.load.image("brick", "img/brick.png");
+        game.load.image("ball", "img/wobble.png, 20, 20");
       }
 
       function create() {
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.arcade.checkCollision.down = false;
+       
 
-        ball = game.add.sprite(
-          game.world.width * 0.5,
-          game.world.height - 20,
-          "ball"
-        );
+        ball = game.add.sprite(game.world.width * 0.5, game.world.height - 20,"ball");
+        ball.animations.add("wobble", [0, 1, 0, 2, 0, 1, 0, 2, 0], 24);
         ball.anchor.set(0.5);
 
         game.physics.enable(ball, Phaser.Physics.ARCADE);
@@ -104,7 +103,7 @@
         lifeLostText.visible = false;
       }
       function update() {
-        game.physics.arcade.collide(ball, paddle);
+        game.physics.arcade.collide(ball, paddle, ballHitPaddle);
         game.physics.arcade.collide(ball, bricks, ballHitBrick);
         paddle.x = game.input.x || game.world.width * 0.5;
       }
@@ -139,7 +138,22 @@
         }
       }
       function ballHitBrick(ball, brick) {
-        brick.kill();
+
+        const killTween = game.add.tween(brick.scale);
+        killTween.to({ x: 0, y: 0 }, 200, Phaser.Easing.Linear.None);
+        killTween.onComplete.addOnce(() => {
+          brick.kill();
+        }, this);
+        killTween.start();
+        
+        // expandingbricks... maybe a power up option?
+        //    game.add
+        //    .tween(brick.scale)
+        //    .to({ x: 2, y: 2 }, 500, Phaser.Easing.Elastic.Out, true, 100);
+
+
+
+        
         score += 10;
         scoreText.setText(`POINTS: ${score}`);
 
@@ -164,6 +178,9 @@
           alert("YOU LOOSE, N00B");
           location.reload();
         }
+      }
+      function ballHitPaddle(ball, paddle){
+        ball.animations.play("wobble");
       }
     </script>
   </body>
