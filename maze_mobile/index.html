@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>______CyberOrb_____</title>
+    <style>
+        body{
+            margin: 0;
+            background: #333;
+        }
+    </style>
+    <script> src="src/phaser-arcade-physics.2.2.2.min.js"</script>
+    <script src="src/Boot.js"></script>
+    <script src="src/PReloader.js"></script>
+    <script src="src/MainMenu.js"></script>
+    <script src="src/Howto.js"></script>
+    <script src="src/Game.js"></script>
+</head>
+<body>
+    <script>
+        (() =>{
+            const game = new Phaser.Game(320, 480, Phaser.CANVAS, "game");
+            game.state.add("Boot", Ball.Boot);
+            game.state.add("Preloader", Ball.Preloader);
+            game.state.add("MainMenu", Ball.MainMenu);
+            game.state.add("Howto", Ball.HowTo);
+            game.state.start("Boot");
+        })
+    </script>
+    
+</body>
+</html>
