@@ -154,6 +154,18 @@
       } else if (this.keys.down.isDown) {
         this.ball.body.velocity.y += this.movementForce
       }
+
+
+      window.addEventListener("deviceorientation",
+      this.handleOrientation, true);
+
+      handleOrientation(event) {
+        const x = event.gamma;
+        const y = event.beta;
+        Ball._player.body.velocity.x += x;
+        Ball.player.body.velocity.y += y;
+        }
+
       
 
     
