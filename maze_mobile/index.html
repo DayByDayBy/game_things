@@ -117,6 +117,48 @@
           this.game.state.start("Game");
         },
       };
+
+      Ball.game - function (game) {};
+      Ball.Game.prototype = {
+        create(){},
+        initLevels(){},
+        showLevels(){},
+        showLevel(level){}, 
+        updateCounter(){},
+        managePause(){},
+        manageAudio(){},
+        update() {},
+        wallCollision() {},
+        handleOrientation(e){},
+        finishLevel() {},
+      };
+
+
+      this.ball - this.add.sprite(this.ballStartPos.x,
+      this.ballStartPos.y, "ball");
+      this.ball.anchor.set(0.5);
+      this.physics.enable(this.ball, Phaser.Physics.ARCADE);
+      this.ball.body.setSize(18, 18);
+      this.ball.body.bounce.set(0.3, 0.3);
+
+      this.keys = this.game.input.keyboard.createCursorKeys();
+
+      if (this.keys.left.isDown){
+        this.ball.body.velocity.x -= this.movementForce;
+      } else if (this.keys.right.isDown){
+        this.ball.body.velocity.x += this.movementForce;
+      }
+
+      if (this.keys.up.isDown){
+        this.ball.body.velocity.y -= this.movementForce;
+      } else if (this.keys.down.isDown) {
+        this.ball.body.velocity.y += this.movementForce
+      }
+      
+
+    
+
+
     </script>
   </body>
 </html>
