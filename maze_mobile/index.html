@@ -1,100 +1,122 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>_____CyberOrb____</title>
     <style>
-        body{
-            margin: 0;
-            background: #333;
-        }
+      body {
+        margin: 0;
+        background: #333;
+      }
     </style>
-    <script> src="src/phaser-arcade-physics.2.2.2.min.js"</script>
+    <script>
+      src = "src/phaser-arcade-physics.2.2.2.min.js";
+    </script>
     <script src="src/Boot.js"></script>
     <script src="src/PReloader.js"></script>
     <script src="src/MainMenu.js"></script>
     <script src="src/Howto.js"></script>
     <script src="src/Game.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <script>
-        (() =>{
-            const game = new Phaser.Game(320, 480, Phaser.CANVAS, "game");
-            game.state.add("Boot", Ball.Boot);
-            game.state.add("Preloader", Ball.Preloader);
-            game.state.add("MainMenu", Ball.MainMenu);
-            game.state.add("Howto", Ball.HowTo);
-            game.state.start("Boot");
-        })
- 
+      () => {
+        const game = new Phaser.Game(320, 480, Phaser.CANVAS, "game");
+        game.state.add("Boot", Ball.Boot);
+        game.state.add("Preloader", Ball.Preloader);
+        game.state.add("MainMenu", Ball.MainMenu);
+        game.state.add("Howto", Ball.HowTo);
+        game.state.start("Boot");
+      };
 
-    const Ball = {
+      const Ball = {
         _WIDTH: 320,
         _HEIGHT: 480,
-    };
+      };
 
-    Ball.Boot - function (game) {};
-    Ball.Boot.prototype = {
+      Ball.Boot - function (game) {};
+      Ball.Boot.prototype = {
         preload() {
-            this.load.image("preloaderBg", "img/loading-bg.png");
-            this.load.image("preloaderBar", "img/loading-bar.png");  
+          this.load.image("preloaderBg", "img/loading-bg.png");
+          this.load.image("preloaderBar", "img/loading-bar.png");
         },
         create() {
-            this.game.scale.scaleModer = Phaser.ScaleManager.SHOW_ALL;
-            this.game.scale.pageAlignHorizontally = true;
-            this.game.scale.pageAlignVertically = true;
-            this.game.state.start("Preloader");
+          this.game.scale.scaleModer = Phaser.ScaleManager.SHOW_ALL;
+          this.game.scale.pageAlignHorizontally = true;
+          this.game.scale.pageAlignVertically = true;
+          this.game.state.start("Preloader");
         },
-        
-    };
+      };
 
-    Ball.preloader.prototype = {
+      Ball.preloader.prototype = {
         preload() {
-            this.preloadBg = this.add.sprite(
-                (Ball._WIDTH - 297)*0.5,
-                (Ball._HEIGHT - 50)*0.5,
-                "preloaderBar",
+          this.preloadBg = this.add.sprite(
+            (Ball._WIDTH - 297) * 0.5,
+            (Ball._HEIGHT - 50) * 0.5,
+            "preloaderBar"
+          );
+          this.load.setPreloadSprite(this.preloadBar);
 
-            );
-            this.load.setPreloadSprite(this.preloadBar);
-
-            this.load.image("ball", img/ball.png)
-            this.load.spritesheet("button-start", "img/button-start.png", 146, 51);
-            this.load.audio(audio-bounce, [
+          this.load.image("ball", img / ball.png);
+          this.load.spritesheet(
+            "button-start",
+            "img/button-start.png",
+            146,
+            51
+          );
+          this.load.audio(audio - bounce, [
             "audio/bounce.ogg",
             "audio/bounce.mp3",
             "audio/bounce.m4a",
-            ]);
+          ]);
         },
-        create(){
-            this.game.state.start("MainMenu");
+        create() {
+          this.game.state.start("MainMenu");
         },
-    };
+      };
 
-    Ball.MainMenu = function (game) {};
-    Ball.MainMenu.prototype = {
-        create(){
-            this.add.sprite(0, 0, "screen-mainmenu");
-            this.gameTitle = this.add.sprite(Ball._WIDTH * 0.5, 40, "title");
-            this.gameTitle.anchor.set(0.5, 0);
-            this,startButton = this.add.button(
-                Ball._WIDTH * 0.5,
-                200,
-                "button-start",
-                this.startGame,
-                this,
-                2, 0, 1, 
-
-            );
-            this.startButton.anchor.set(0.5, 0);
-            this.startButton,impuit.useHandCursor = true;
+      Ball.MainMenu = function (game) {};
+      Ball.MainMenu.prototype = {
+        create() {
+          this.add.sprite(0, 0, "screen-mainmenu");
+          this.gameTitle = this.add.sprite(Ball._WIDTH * 0.5, 40, "title");
+          this.gameTitle.anchor.set(0.5, 0);
+          this,
+            (startButton = this.add.button(
+              Ball._WIDTH * 0.5,
+              200,
+              "button-start",
+              this.startGame,
+              this,
+              2,
+              0,
+              1
+            ));
+          this.startButton.anchor.set(0.5, 0);
+          this.startButton, (impuit.useHandCursor = true);
         },
-        startGame(){
-            this.game.state.start("HowTo");
+        startGame() {
+          this.game.state.start("HowTo");
         },
-    };
+      };
 
-   </script>
-    
-</body>
+      Ball.HowTo = function (game) {};
+      Ball.HowTo.prototype = {
+        create() {
+          this,
+            (buttonContinue = this.add.button(
+              0,
+              0,
+              "screen-howtoplay",
+              this,
+              startGame,
+              this
+            ));
+        },
+        startGame() {
+          this.game.state.start("Game");
+        },
+      };
+    </script>
+  </body>
 </html>
