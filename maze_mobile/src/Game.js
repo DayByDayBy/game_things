@@ -1,3 +1,8 @@
+// need to flesh out the functions, and fiddle a bit to join up some dots
+
+
+
+
 Ball.game - function (game) {};
       Ball.Game.prototype = {
         create() {},
