@@ -13,7 +13,7 @@
       src = "src/phaser-arcade-physics.2.2.2.min.js";
     </script>
     <script src="src/Boot.js"></script>
-    <script src="src/PReloader.js"></script>
+    <script src="src/Preloader.js"></script>
     <script src="src/MainMenu.js"></script>
     <script src="src/Howto.js"></script>
     <script src="src/Game.js"></script>
@@ -29,185 +29,14 @@
         game.state.start("Boot");
       };
 
-      const Ball = {
-        _WIDTH: 320,
-        _HEIGHT: 480,
-      };
+      
 
-      Ball.Boot - function (game) {};
-      Ball.Boot.prototype = {
-        preload() {
-          this.load.image("preloaderBg", "img/loading-bg.png");
-          this.load.image("preloaderBar", "img/loading-bar.png");
-        },
-        create() {
-          this.game.scale.scaleModer = Phaser.ScaleManager.SHOW_ALL;
-          this.game.scale.pageAlignHorizontally = true;
-          this.game.scale.pageAlignVertically = true;
-          this.game.state.start("Preloader");
-        },
-      };
-
-      Ball.preloader.prototype = {
-        preload() {
-          this.preloadBg = this.add.sprite(
-            (Ball._WIDTH - 297) * 0.5,
-            (Ball._HEIGHT - 50) * 0.5,
-            "preloaderBar"
-          );
-          this.load.setPreloadSprite(this.preloadBar);
-
-          this.load.image("ball", img / ball.png);
-          this.load.spritesheet(
-            "button-start",
-            "img/button-start.png",
-            146,
-            51
-          );
-          this.load.audio(audio - bounce, [
-            "audio/bounce.ogg",
-            "audio/bounce.mp3",
-            "audio/bounce.m4a",
-          ]);
-        },
-        create() {
-          this.game.state.start("MainMenu");
-        },
-      };
-
-      Ball.MainMenu = function (game) {};
-      Ball.MainMenu.prototype = {
-        create() {
-          this.add.sprite(0, 0, "screen-mainmenu");
-          this.gameTitle = this.add.sprite(Ball._WIDTH * 0.5, 40, "title");
-          this.gameTitle.anchor.set(0.5, 0);
-          this,
-            (startButton = this.add.button(
-              Ball._WIDTH * 0.5,
-              200,
-              "button-start",
-              this.startGame,
-              this,
-              2,
-              0,
-              1
-            ));
-          this.startButton.anchor.set(0.5, 0);
-          this.startButton, (impuit.useHandCursor = true);
-        },
-        startGame() {
-          this.game.state.start("HowTo");
-        },
-      };
-
-      Ball.HowTo = function (game) {};
-      Ball.HowTo.prototype = {
-        create() {
-          this,
-            (buttonContinue = this.add.button(
-              0,
-              0,
-              "screen-howtoplay",
-              this,
-              startGame,
-              this
-            ));
-        },
-        startGame() {
-          this.game.state.start("Game");
-        },
-      };
-
-      Ball.game - function (game) {};
-      Ball.Game.prototype = {
-        create(){},
-        initLevels(){},
-        showLevels(){},
-        showLevel(level){}, 
-        updateCounter(){},
-        managePause(){},
-        manageAudio(){},
-        update() {},
-        wallCollision() {},
-        handleOrientation(e){},
-        finishLevel() {},
-      };
-
-
-      this.ball - this.add.sprite(this.ballStartPos.x,
-      this.ballStartPos.y, "ball");
-      this.ball.anchor.set(0.5);
-      this.physics.enable(this.ball, Phaser.Physics.ARCADE);
-      this.ball.body.setSize(18, 18);
-      this.ball.body.bounce.set(0.3, 0.3);
-
-      this.keys = this.game.input.keyboard.createCursorKeys();
-
-      if (this.keys.left.isDown){
-        this.ball.body.velocity.x -= this.movementForce;
-      } else if (this.keys.right.isDown){
-        this.ball.body.velocity.x += this.movementForce;
-      }
-
-      if (this.keys.up.isDown){
-        this.ball.body.velocity.y -= this.movementForce;
-      } else if (this.keys.down.isDown) {
-        this.ball.body.velocity.y += this.movementForce
-      }
-
-
-      window.addEventListener("deviceorientation",
-      this.handleOrientation, true);
-
-      handleOrientation(event) {
-        const x = event.gamma;
-        const y = event.beta;
-        Ball._player.body.velocity.x += x;
-        Ball.player.body.velocity.y += y;
-        }
-    
-        this.hole = this.add.sprite(BAll._WIDTH * 0.5, 90, "hole");
-        this.physics.enable(this.hole, Phaser.Physics.ARCADE);
-        this.hole.anchor.set(0.5);
-        this.hole.body.setSize(2, 2);
-
-        this.levelData = [
-        [{ x: 96, y: 224, t: "w" }],
-        [
-        { x: 72, y: 320, t: "w" },
-        { x: 200, y: 320, t: "h" },
-        { x: 72, y: 150, t: "w" },
-        ],
-        ];
-
-
-        for (let i = 0; i < this.maxLevels; i++){
-            const newLevel = this.add.group();
-            newLevel.enableBody = true;
-            newLevel.physicsBodyType = Phaser.Physics.ARCADE;
-            for (let e = 0; e < this.levelData[i].length; e++){
-                const item = this.levelDate[i][e];
-                newLevel.create(item.x, item.y, `element-${item.t}`);
-            }
-            newLevel.setAll("body.immovable", true);
-            newLevel.visible = false;
-            this.levels.push(newLevel);
-        }
-
-        showLevel(level){
-            const lvl = level | this.level;
-            if (this.levels[lvl-2]){
-                this.levels[lvl-2].visible = false;
-            }
-            this.levels[lvl -1].visible = true;
-        }
 
 
       
 
-    
 
-
+      
     </script>
   </body>
 </html>
