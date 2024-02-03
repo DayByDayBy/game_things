@@ -179,9 +179,8 @@ Ball.game = function (game) {};
             window.navigator.vibrate(100);
           }
         },
-        handleOrientation(e) {},
-        finishLevel() {},
-      };
+  
+    
 
       handleOrientation(e) {
         const x = e.gamma;
@@ -192,9 +191,29 @@ Ball.game = function (game) {};
       }
 
       finishLevel(){
-        
+        if (this.level>= this.maxLevels){
+            this.totalTimer += this.timer;
+            alert("WINNER!! \n\ntotal play time: "+this.totalTimer+" seconds!");
+            this.game.state.start('MainMenu');
+        } else {
+            alert('Level ' +this.level+' Completed')
+            this.totalTimer += this.timer;
+            this.timer = o;
+            this.level++;
+            this.timerText.setText("Time: "+this.timer);
+            this.totalTimeText.setText("Total Time: "+this.totalTimer);
+            this.levelText.setText("Level: "+this.level+ " / "  +this.maxLevels);
+            this.ball.body.x = this.ballStartPos.x;
+            this.ball.body.y = this.ballStartPos.y;
+            this.ball.body.velocity.x = 0;
+            this.ball.body.velocity.y = 0;
+            this.showLevel();
+        }
+      },
+      render(){
+          // this.game.debug.body(this.ball);
+          // this.game.debug.body(this.hole);
       }
 
-        
-
+    };
 
