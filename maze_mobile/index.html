@@ -165,6 +165,13 @@
         Ball._player.body.velocity.x += x;
         Ball.player.body.velocity.y += y;
         }
+    
+        this.hole = this.add.sprite(BAll._WIDTH * 0.5, 90, "hole");
+        this.physics.enable(this.hole, Phaser.Physics.ARCADE);
+        this.hole.anchor.set(0.5);
+        this.hole.body.setSize(2, 2);
+
+        
 
       
 
