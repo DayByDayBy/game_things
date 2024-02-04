@@ -1,10 +1,5 @@
-// need to flesh out the functions, and fiddle a bit to join up some dots
-
-
-
-
-Ball.game = function (game) {};
-      Ball.Game.prototype = {
+Ball.Game = function (game) {};
+Ball.Game.prototype = {
       create() {
           this.add.sprite(0, 0, "screen-bg");
           this.add.sprite(0, 0, 'panel');
@@ -188,7 +183,7 @@ Ball.game = function (game) {};
         const z = e.alpha;
         Ball._player.body.velocity.x += x;
         Ball.player.body.velocity.y += y*0.5;
-      }
+      },
 
       finishLevel(){
         if (this.level>= this.maxLevels){
