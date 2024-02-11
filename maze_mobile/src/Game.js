@@ -1,4 +1,4 @@
-Ball.Game = function (game) {};
+Ball.Game = function(game) {};
 Ball.Game.prototype = {
       create() {
           this.add.sprite(0, 0, "screen-bg");
@@ -46,7 +46,7 @@ Ball.Game.prototype = {
           this.keys = this.game.input.keyboard.createCursorKeys();
 
         
-          Ball._player = this.ball;
+        Ball._player = this.ball;
           window.addEventListener("deviceorientation",
             this.handleOrientation, true);
 

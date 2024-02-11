@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smooth Randomized Wave Graph</title>
+<style>
+    canvas{
+        width: 101%;
+        height: 20%;
+        align-items: baseline;
+    }
+</style>
+</head>
+<body>
+<canvas id="waveCanvas"></canvas>
+
+<script>
+
+    let mouseX = 0;
+    let mouseY = 0;
+    document.addEventListener('mousemove', function(e) {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+    });
+
+    const canvas = document.getElementById('waveCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let amplitude = 50; 
+    let frequency = 0.0033;
+    let phase = 0;
+
+    const amplitudeChangeRate = 0.00005; 
+    const frequencyChangeRate = 0.000067;
+
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    function drawWave() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.moveTo(-10, canvas.height/2);
+
+        const numPoints = canvas.width;
+        const stepSize = (canvas.width / numPoints)*2;
+
+        for (let x = 0; x < canvas.width; x += stepSize) {
+            const y = canvas.height / 2 + amplitude * Math.sin(frequency * x + phase);
+            ctx.lineTo(x, y);
+        }
+
+        ctx.strokeStyle = "grey";
+        ctx.stroke();
+    }
+
+    function frequencyModulation(){
+        frequency = 0.0033 + Math.sin(Date.now() * 0.001) * 0.001;
+    }
+
+    function amplitudeModulation(){
+        const modStrength = 500;
+        const modX = Math.sin(mouseX);
+        const modY = Math.sin(mouseY);
+        amplitude = 50 + (modX - modY)* modStrength;
+
+    }
+
+    function updateAmplitude() {
+            const amplitudeChange = amplitudeChangeRate * Math.random();
+            if (amplitude < 80) {
+                amplitude += amplitudeChange;
+            } else if (amplitude > 20) {
+                amplitude += -amplitudeChange;
+            }
+            amplitude = Math.min(Math.max(amplitude, 20), 80)
+        }
+
+            function updateFrequency() {
+
+            const frequencyChange = frequencyChangeRate * Math.random();
+            if (frequency < 1){
+                frequency += frequencyChange;
+            } else if (frequency > 0.00000001) {
+                frequency += -frequencyChange;
+            }
+            frequency = Math.min(Math.max(frequency, 0.00000001), 1)
+        }
+
+        function updateWavelength() {
+
+            const wavelengthChange = wavelengthChangeRate * Math.random();
+            if (wavelength < 3){
+                wavelength += wavelengthChange;
+            } else if (wavelength > 1) {
+                wavelength += -wavelengthChange;
+            }
+            wavelength = Math.min(Math.max(wavelength, 0.00000001), 1)
+        }
+
+        
+        function updateParameters(){
+            setInterval(function(){
+                updateAmplitude();
+                updateFrequency();
+                updateWavelength();
+                amplitudeModulation();
+                frequencyModulation();
+                phase += 0.01;
+            }, 25);
+    }
+
+    function update() {
+        drawWave();
+        requestAnimationFrame(update);
+    }
+
+    update();
+    updateParameters();
+
+</script>
+</body>
+</html>
