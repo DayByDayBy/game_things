@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frequency Modulated Signal Simulation</title>
+<style>
+    canvas {
+        width: 100%;
+        height: 300px;
+    }
+</style>
+</head>
+<body>
+<canvas id="waveCanvas"></canvas>
+
+<script>
+    let mouseX = 0;
+    let mouseY = 0;
+
+    document.addEventListener("mousemove", function (event) {
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+    });
+
+    const canvas = document.getElementById("waveCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const carrierFrequency = 40;
+    const modulationFrequency = 30;
+    const intensitySpan = 0.2;
+    const modulationIndex = 2;
+
+    let amplitude = 7;
+    let phase = 0;
+
+    function drawWave() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.moveTo(-5, canvas.height / 2);
+
+        const numPoints = 1000;
+        const stepSize = canvas.width / numPoints;
+
+        for (let x = 0; x < canvas.width; x += stepSize) {
+            const instantaneousFrequency = carrierFrequency + modulationIndex * Math.sin(modulationFrequency * 2 * Math.PI * x / canvas.width);
+            const y = canvas.height / 2 + amplitude * Math.sin(2 * Math.PI * instantaneousFrequency * x / canvas.width + phase);
+            ctx.lineTo(x, y);
+        }
+
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+    }
+
+    function update() {
+        drawWave();
+        requestAnimationFrame(update);
+        Math.random() < 0.001 ? (phase += 0.001) : (phase -= 0.01);
+
+
+    }
+
+    update();
+</script>
+</body>
+</html>
