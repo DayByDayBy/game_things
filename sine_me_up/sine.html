@@ -23,7 +23,7 @@
       let mouseY = 0;
       let amplitude = 50;
       let frequency = 0.000033;
-      let phase = .01;
+      let phase = 0.01;
       let intensityModulation = 0.01;
       let modulatorStrength = 2;
       let intensitySpan = 0.003;
@@ -74,7 +74,7 @@
       let minFreqReached = false;
 
       function updateAmplitude() {
-        const amplitudeChange = amplitudeChangeRate * intensityModulation;
+        const amplitudeChange = amplitudeChangeRate * (intensityModulation * modulatorStrength);
         if (!maxAmpReached) {
           amplitude += amplitudeChange;
           if (amplitude >= 60) {
@@ -92,6 +92,8 @@
           minAmpReached = false;
         }
       }
+
+      
 
       function updateFrequency() {
         const frequencyChange = frequencyChangeRate * intensitySpan;
