@@ -10,8 +10,6 @@
         height: 10em;
         align-items: baseline;
       }
-
-
       
     </style>
   </head>
@@ -22,26 +20,39 @@
       let mouseX = 0;
       let mouseY = 0;
       let amplitude = 50;
-      let frequency = 0.000033;
-      let phase = 0.01;
-      let intensityModulation = 0.01;
-      let modulatorStrength = 2;
-      let intensitySpan = 0.003;
+      let frequency = 0.00000033;
+      let phase = 0.0001;
+      let intensityModulation = 0.1;
+      let modulatorStrength = 0.003;
+      let intensitySpan = 0.03;
 
       document.addEventListener("mousemove", function (event) {
         mouseX = event.clientX;
         mouseY = event.clientY;
+        console.log(mouseX, mouseY)
       });
 
       const canvas = document.getElementById("waveCanvas");
       const ctx = canvas.getContext("2d");
 
-      const amplitudeChangeRate = 0.0005;
-      const frequencyChangeRate = 0.00067;
+      const amplitudeChangeRate = 0.00005;
+      const frequencyChangeRate = 0.00000067;
 
       function randomInRange(min, max) {
         return Math.random() * (max - min) + min;
       }
+
+      
+
+      function mouseMod() {
+        const modX = Math.sin(mouseX);
+        const modY = Math.sin(mouseY);
+        intensityModulation = (modX - modY);
+        modulatorStrength = (modX - modY);
+        intensitySpan = ((modY / Math.PI * 0.001) - (modX * 0.001));
+      }
+
+
 
       function drawWave() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -52,27 +63,26 @@
         const stepSize = canvas.width / numPoints;
 
         for (let x = 0; x < canvas.width; x += stepSize) {
-          const y =
-            canvas.height / 2 + amplitude * Math.sin(frequency * x + phase);
+          const instantaneousFrequency = frequency + modulatorStrength * Math.sin(intensityModulation * 2 * Math.PI * x / canvas.width);
+          const y = canvas.height / 2 + amplitude * Math.sin(instantaneousFrequency * x);
           ctx.lineTo(x, y);
         }
-
         ctx.strokeStyle = "black";
         ctx.stroke();
       }
 
       function frequencyModulation() {
-        frequency = 0.0033 + Math.sin(Date.now() * 0.001) * 0.001;
+        frequency += Math.sin((Date.now()*0.01) / Math.PI) * 0.00001;
       }
       function amplitudeModulation() {
-        amplitude = 50 + Math.sin(Date.now() * 0.1) * 0.03;
+        amplitude = 50 + Math.sin(Date.now() * 0.1) * 0.00003;
       }
 
       let maxAmpReached = false;
       let minAmpReached = false;
       let maxFreqReached = false;
       let minFreqReached = false;
-
+      
       function updateAmplitude() {
         const amplitudeChange = amplitudeChangeRate * (intensityModulation * modulatorStrength);
         if (!maxAmpReached) {
@@ -92,8 +102,6 @@
           minAmpReached = false;
         }
       }
-
-      
 
       function updateFrequency() {
         const frequencyChange = frequencyChangeRate * intensitySpan;
@@ -115,29 +123,17 @@
         }
       }
 
-
-
-
-
-      function mouseMod() {
-        const modX = Math.sin(mouseX);
-        const modY = Math.sin(mouseY);
-        intensityModulation = (modX + modY);
-        modulatorStrength = modX;
-        intensitySpan = modY;
-      }
-
       function updateParameters() {
         setInterval(function () {
-
+          mouseMod();
           updateAmplitude();
           updateFrequency();
           amplitudeModulation();
           frequencyModulation();
-          mouseMod();
+          
 
           Math.random() < 0.01 ? (phase += 0.01) : (phase -= 0.01);
-        }, 3);
+        }, 5);
       }
 
       function update() {

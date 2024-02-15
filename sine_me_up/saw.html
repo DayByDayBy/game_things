@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sawtooth</title>
+    <style>
+      canvas {
+        width: 101%;
+        height: 10em;
+        align-items: baseline;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="sawtooth"></canvas>
+
+    <script>
+
+      const canvas = document.getElementById("sawtooth");
+      const ctx = canvas.getContext("2d");
+
+      let phase = 0;
+      function drawWave() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.moveTo(-1, canvas.height / 2)
+        const amplitude = 10;
+        const frequency = .1;
+       
+        for (let x = 0; x < canvas.width*2; x ++) {
+          const y = canvas.height / 2 + (2 * (x * frequency - Math.floor(0.5 + x * frequency)) * amplitude)+ phase;
+          ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+      }
+
+      function update() {
+        drawWave();
+        requestAnimationFrame(update);
+        Math.random() < 0.001 ? (phase += 0.001) : (phase -= 0.01);
+      }
+      update();
+    </script>
+  </body>
+</html>
