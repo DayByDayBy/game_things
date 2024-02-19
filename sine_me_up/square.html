@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smooth Randomized Wave Graph</title>
+    <style>
+      canvas {
+        width: 101%;
+        height: 10em;
+        align-items: baseline;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <canvas id="waveCanvas"></canvas>
+
+    <script>
+      let amplitude = 50;
+      let frequency = 5;
+      let phase = 0.0001;
+
+
+
+
+      const canvas = document.getElementById("waveCanvas");
+      const ctx = canvas.getContext("2d");
+
+      const amplitudeChangeRate = 0.00005;
+      const frequencyChangeRate = 0.00000067;
+
+
+      
+
+
+
+
+
+      function drawWave() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.moveTo(-10, canvas.height / 2);
+
+        const numPoints = 5000;
+        const stepSize = canvas.width / numPoints;
+
+        for (let x = 0; x < canvas.width; x += stepSize) {
+        
+          const y = canvas.height / 2 * (x%frequency)<amplitude?amplitude:-amplitude;
+          ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+      }
+          
+      function update() {
+        drawWave();
+        requestAnimationFrame(update);
+      }
+      update();
+
+    </script>
+  </body>
+</html>
